@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     './src/index.jsx'
@@ -13,16 +13,20 @@ module.exports = {
     publicPath: '/build/'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
+        loader: 'babel-loader',
         include: path.join(__dirname, 'src')
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       }
     ]
   }
-}
+};
