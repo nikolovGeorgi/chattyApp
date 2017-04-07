@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
 
 class ChatBar extends Component {
-  constructor(){
-    super();
-  }
 
-  handleInput(e){
+  handleUserNameInput(e){
     if (!(e.key === 'Enter')) {
       return;
     }
-    this.props.handleUser(e);
+    this.props.handleUser(e.target.value);
+  }
+
+  handleMessageInput(e){
+    if (!(e.key === 'Enter')) {
+      return;
+    }
+    this.props.handleMessage(e.target.value);
+    e.target.value = '';
   }
 
   render(){
@@ -18,13 +23,13 @@ class ChatBar extends Component {
         <input className="chatbar-username"
           placeholder="Your Name (Optional)"
           type="text"
-          onKeyPress={this.handleInput.bind(this)}
+          onKeyPress={this.handleUserNameInput.bind(this)}
           onBlur={this.props.handleUser}
           />
         <input className="chatbar-message"
           placeholder="Type a message and hit ENTER"
           type="text"
-          onKeyPress={this.props.handleMessage}
+          onKeyPress={this.handleMessageInput.bind(this)}
           />
       </footer>
     )

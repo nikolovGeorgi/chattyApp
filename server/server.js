@@ -16,21 +16,24 @@ wss.broadcast = function broadcast(data){
   })
 }
 
+function updateUserCount(){
+  return wss.broadcast(JSON.stringify({type: 'userCount', userCount}));
+}
+
 wss.on('connection', (client) => {
   const socketId = nextSocketId;
   nextSocketId++;
   userCount += 1;
 
   console.log('Client connected');
-  wss.broadcast(JSON.stringify({type: 'userCount', userCount}));
-
+  updateUserCount();
   sockets[socketId] = { socket: client };
 
   // Per closed connection remove the socket ID from the list of connections && broadcast the updated user count;
   client.on('close', () => {
       delete sockets[socketId];
       userCount -= 1;
-      wss.broadcast(JSON.stringify({type: 'userCount', userCount}));
+      updateUserCount();
       console.log('Client disconnected: ', socketId);
     }
   );

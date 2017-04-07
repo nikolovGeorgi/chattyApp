@@ -44,32 +44,39 @@ class App extends Component {
     }
   }
 
-  handleMessage (message){
+  handleMessage (event){
+    if (!(event.key === 'Enter')) {
+      return;
+    }
     const newMessage = {
         type: 'postMessage',
         color: this.state.currentUser.color,
         username: this.state.currentUser.name,
-        content: message
+        content: event.target.value
     }
+    const messages = this.state.messages.concat(newMessage);
     this.socket.send(JSON.stringify(newMessage))
+    event.target.value = '';
   }
 
-  handleUser (userName){
-    const oldUserName = this.state.currentUser.name;
-    const oldColor = this.state.currentUser.color;
-    const newUser = userName;
-    if (oldUserName === newUser) return;
-    this.setState({currentUser: {name: newUser, color: oldColor}});
+  handleUser (event){
+    const oldUser = this.state.currentUser.name;
+    const oldCol = this.state.currentUser.color;
+    const newUser = event.target.value;
+    if (oldUser === newUser) return;
+    this.setState({currentUser: {name: newUser, color: oldCol}});
     let message = {
       type: 'postNewUserName',
       color: this.state.currentUser.color,
       username: newUser,
-      content: oldUserName + ' has changed their name to ' + newUser
+      content: oldUser + ' has changed their name to ' + newUser
     }
     this.socket.send(JSON.stringify(message));
+    event.target.value = newUser;
   }
 
   render() {
+    console.log('my messages are: ', this.state.messages);
     return (
       <div>
         <NavBar userCount={this.state.userCount} />

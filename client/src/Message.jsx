@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
 
 class Message extends Component {
-  constructor(){
-    super();
-    this.checkURL = this.checkURL.bind(this);
-    this.postImage = this.postImage.bind(this);
-  }
-
   checkURL(url) {
     return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }

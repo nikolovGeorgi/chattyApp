@@ -2,16 +2,19 @@ import React, {Component} from 'react';
 import Message from './Message.jsx';
 
 class MessageList extends Component {
+  constructor (props){
+    super(props);
+  }
   render() {
     return (
       <main className="messages">
-        {this.props.messages.map(function(message) {
+        {this.props.messages.map(function(messages) {
           return (
             <Message
-              key={message.uuid}
-              color={message.color}
-              username={message.username}
-              content={message.content}
+              key={messages.uuid}
+              color={messages.color}
+              username={messages.username}
+              content={messages.content}
             />
           );
         })}
