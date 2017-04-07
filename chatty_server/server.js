@@ -9,6 +9,7 @@ const uuid = require('node-uuid');
 let nextSocketId = 1;
 let userCount = 0;
 const sockets = {};
+
 wss.broadcast = function broadcast(data){
   wss.clients.forEach(function each(client) {
     client.send(data);
@@ -19,11 +20,13 @@ wss.on('connection', (client) => {
   const socketId = nextSocketId;
   nextSocketId++;
   userCount += 1;
+
   console.log('Client connected');
   wss.broadcast(JSON.stringify({type: 'userCount', userCount}));
 
   sockets[socketId] = { socket: client };
 
+  // Per closed connection remove the socket ID from the list of connections && broadcast the updated user count;
   client.on('close', () => {
       delete sockets[socketId];
       userCount -= 1;
@@ -32,16 +35,17 @@ wss.on('connection', (client) => {
     }
   );
 
+  // Per user connection set a color for them and update their information
   let rndColor = '#'+Math.floor(Math.random()*16777215).toString(16);
   let userColor = {type: 'userColor', color: rndColor};
-
   client.send(JSON.stringify(userColor));
 
+  // Once a new message is received - find if it's updated content(message) || username -> broadcast the change;
   console.log('new connection', socketId);
   client.on('message', (data) => {
     const message = JSON.parse(data);
     message.uuid = uuid.v1();
-    
+
     let outgoing = message;
 
     switch (message.type){
@@ -52,7 +56,7 @@ wss.on('connection', (client) => {
         outgoing.type = 'incomingNewUserName';
         break;
     }
-    wss.broadcast(JSON.stringify(outgoing)); //send to all users
+    wss.broadcast(JSON.stringify(outgoing));
   });
 });
 

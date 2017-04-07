@@ -6,9 +6,11 @@ class Message extends Component {
     this.checkURL = this.checkURL.bind(this);
     this.postImage = this.postImage.bind(this);
   }
+
   checkURL(url) {
     return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
   }
+
   postImage(msg){
     if(this.checkURL(msg)){
       return (<img src={msg} />);
@@ -16,6 +18,7 @@ class Message extends Component {
       return msg
     }
   }
+
   render() {
     let style = {color: this.props.color};
     return (

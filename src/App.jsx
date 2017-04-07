@@ -58,6 +58,7 @@ class App extends Component {
     this.socket.send(JSON.stringify(newMessage))
     event.target.value = '';
   }
+
   handleUser (event){
     const oldUser = this.state.currentUser.name;
     const oldCol = this.state.currentUser.color;
