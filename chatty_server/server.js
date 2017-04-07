@@ -13,12 +13,13 @@ wss.broadcast = function broadcast(data){
     client.send(data);
   })
 }
+
 wss.on('connection', (client) => {
   const socketId = nextSocketId;
   nextSocketId++;
   userCount += 1;
   console.log('Client connected');
-  client.send(JSON.stringify({type: 'userCount', userCount: socketId}));
+  wss.broadcast(JSON.stringify({type: 'userCount', userCount}));
 
   sockets[socketId] = {
       socket: client,
@@ -28,16 +29,19 @@ wss.on('connection', (client) => {
   client.on('close', () => {
       delete sockets[socketId];
       userCount -= 1;
-      wss.broad(JSON.stringify({type: 'userCount', socketId}));
+      wss.broadcast(JSON.stringify({type: 'userCount', userCount}));
       console.log('Client disconnected: ', socketId);
     }
   );
 
+  let rndColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+  let userColor = {type: 'userColor', color: rndColor};
+
+  client.send(JSON.stringify(userColor));
+
   console.log('new connection', socketId);
   client.on('message', (data) => {
-    // console.log('received', data);
     const message = JSON.parse(data);
-    console.log(message, '-- message @ server');
     let outgoing = message;
 
     switch (message.type){
@@ -47,13 +51,8 @@ wss.on('connection', (client) => {
       case 'postNewUserName':
         outgoing.type = 'incomingNewUserName';
         break;
-      case 'userCount':
-        outgoing.type = 'userCount';
-        break;
     }
     wss.broadcast(JSON.stringify(outgoing)); //send to all users
-    // ws.send(JSON.stringify(outgoing));
-    // Object.values(sockets).find(s => s.first).socket.send(JSON.stringify(outgoing));
   });
 });
 
