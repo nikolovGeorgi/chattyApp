@@ -1,7 +1,7 @@
 {
   "name": "chatty_server",
   "version": "1.0.0",
-  "description": "",
+  "description": "chattyApp_server",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2",
+    "node-uuid": "^1.4.8",
     "nodemon": "^1.11.0",
     "ws": "^2.2.3"
   }

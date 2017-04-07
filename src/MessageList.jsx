@@ -8,10 +8,10 @@ class MessageList extends Component {
   render() {
     return (
       <main className="messages">
-        {this.props.messages.map(function(messages, index) {
+        {this.props.messages.map(function(messages) {
           return (
             <Message
-              key={index}
+              key={messages.uuid}
               color={messages.color}
               username={messages.username}
               content={messages.content}

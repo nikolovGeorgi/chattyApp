@@ -4,6 +4,7 @@ const http = require('http');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
+const uuid = require('node-uuid');
 
 let nextSocketId = 1;
 let userCount = 0;
@@ -21,10 +22,7 @@ wss.on('connection', (client) => {
   console.log('Client connected');
   wss.broadcast(JSON.stringify({type: 'userCount', userCount}));
 
-  sockets[socketId] = {
-      socket: client,
-      first: wss.clients.size === 1
-  };
+  sockets[socketId] = { socket: client };
 
   client.on('close', () => {
       delete sockets[socketId];
@@ -42,6 +40,8 @@ wss.on('connection', (client) => {
   console.log('new connection', socketId);
   client.on('message', (data) => {
     const message = JSON.parse(data);
+    message.uuid = uuid.v1();
+    
     let outgoing = message;
 
     switch (message.type){

@@ -7,7 +7,7 @@ class App extends Component {
   constructor () {
     super();
     this.state = {
-      currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: 'Anonymous'},
       messages: [],
       userCount: 0
     }
@@ -33,7 +33,6 @@ class App extends Component {
             newState.userCount = message.userCount;
             break;
           case 'userColor':
-          console.log(message, 'message in App');
             newState.currentUser.color = message.color;
             break;
           default:
@@ -55,7 +54,6 @@ class App extends Component {
         username: this.state.currentUser.name,
         content: event.target.value
     }
-    // if(newMessage.username ===  'Anonymous') newMessage.color = 'black'
     const messages = this.state.messages.concat(newMessage);
     this.socket.send(JSON.stringify(newMessage))
     event.target.value = '';
@@ -77,6 +75,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('my messages are: ', this.state.messages);
     return (
       <div>
         <NavBar userCount={this.state.userCount} />
