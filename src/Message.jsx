@@ -3,13 +3,25 @@ import React, {Component} from 'react';
 class Message extends Component {
   constructor(){
     super();
+    this.checkURL = this.checkURL.bind(this);
+    this.postImage = this.postImage.bind(this);
+  }
+  checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+  }
+  postImage(msg){
+    if(this.checkURL(msg)){
+      return (<img src={msg} />);
+    } else {
+      return msg
+    }
   }
   render() {
-    console.log("Rendering <Message />");
+    let style = {color: this.props.color};
     return (
         <div className="message">
-          <span className="message-username">{this.props.username}</span>
-          <span className="message-content">{this.props.content}</span>
+          <span className="message-username" style={style}>{this.props.username}</span>
+          <span className="message-content">{this.postImage(this.props.content)}</span>
         </div>
     );
 

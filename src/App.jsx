@@ -7,7 +7,7 @@ class App extends Component {
   constructor () {
     super();
     this.state = {
-      currentUser: {name: ''}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: 'Anonymous'}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       userCount: 0
     }
@@ -31,37 +31,52 @@ class App extends Component {
             break;
           case 'userCount':
             newState.userCount = message.userCount;
+            break;
+          case 'userColor':
+          console.log(message, 'message in App');
+            newState.currentUser.color = message.color;
+            break;
+          default:
+            console.log('Unknown message type: ' + message.type);
+            break;
         }
         this.setState({newState});
       }
     }
-
   }
 
   handleMessage (event){
     if (!(event.key === 'Enter')) {
       return;
     }
-    const newMessage = {type: 'postMessage', username: this.state.currentUser.name, content: event.target.value};
+    const newMessage = {
+        type: 'postMessage',
+        color: this.state.currentUser.color,
+        username: this.state.currentUser.name,
+        content: event.target.value
+    }
+    // if(newMessage.username ===  'Anonymous') newMessage.color = 'black'
     const messages = this.state.messages.concat(newMessage);
-    event.target.value = '';
     this.socket.send(JSON.stringify(newMessage))
+    event.target.value = '';
   }
   handleUser (event){
     const oldUser = this.state.currentUser.name;
+    const oldCol = this.state.currentUser.color;
     const newUser = event.target.value;
-    this.setState({currentUser: {name: newUser}});
+    if (oldUser === newUser) return;
+    this.setState({currentUser: {name: newUser, color: oldCol}});
     let message = {
       type: 'postNewUserName',
+      color: this.state.currentUser.color,
       username: newUser,
       content: oldUser + ' has changed their name to ' + newUser
     }
-    event.target.value = newUser;
     this.socket.send(JSON.stringify(message));
+    event.target.value = newUser;
   }
 
   render() {
-    console.log("Rendering <App />")
     return (
       <div>
         <NavBar userCount={this.state.userCount} />

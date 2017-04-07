@@ -6,13 +6,13 @@ class MessageList extends Component {
     super(props);
   }
   render() {
-    console.log("Rendering <MessageList />");
     return (
       <main className="messages">
         {this.props.messages.map(function(messages, index) {
           return (
             <Message
               key={index}
+              color={messages.color}
               username={messages.username}
               content={messages.content}
             />

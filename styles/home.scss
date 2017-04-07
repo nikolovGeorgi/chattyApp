@@ -65,7 +65,9 @@ body {
   flex: 2;
   font-weight: 700;
 }
-
+img {
+  width: 60%;
+}
 .navbar {
   background: tomato;
   border-bottom: 1px solid black;
@@ -87,4 +89,9 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+.userCount{
+  float:right;
+  padding-top: 20px;
+  font-size: 22px;
 }
