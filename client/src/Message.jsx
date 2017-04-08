@@ -16,10 +16,10 @@ class Message extends Component {
   render() {
     let style = {color: this.props.color};
     return (
-        <div className="message">
-          <span className="message-username" style={style}>{this.props.username}</span>
-          <span className="message-content">{this.postImage(this.props.content)}</span>
-        </div>
+      <div className="message">
+        <span className="message-username" style={style}>{this.props.username}</span>
+        <span className="message-content">{this.postImage(this.props.content)}</span>
+      </div>
     );
 
   }

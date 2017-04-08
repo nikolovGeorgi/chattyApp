@@ -6,14 +6,14 @@ class ChatBar extends Component {
     if (!(e.key === 'Enter')) {
       return;
     }
-    this.props.handleUser(e.target.value);
+    this.props.handleUser(e);
   }
 
   handleMessageInput(e){
     if (!(e.key === 'Enter')) {
       return;
     }
-    this.props.handleMessage(e.target.value);
+    this.props.handleMessage(e);
     e.target.value = '';
   }
 

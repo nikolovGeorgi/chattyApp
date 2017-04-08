@@ -63,7 +63,6 @@ class App extends Component {
     let message = {
       type: 'postNewUserName',
       color: this.state.currentUser.color,
-      username: newUser,
       content: oldUserName + ' has changed their name to ' + newUser
     }
     this.socket.send(JSON.stringify(message));
