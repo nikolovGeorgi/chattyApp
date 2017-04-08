@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 class ChatBar extends Component {
-
   handleUserNameInput(e){
     if (!(e.key === 'Enter')) {
       return;

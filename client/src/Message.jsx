@@ -21,7 +21,6 @@ class Message extends Component {
         <span className="message-content">{this.postImage(this.props.content)}</span>
       </div>
     );
-
   }
 }
 export default Message;

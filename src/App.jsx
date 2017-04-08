@@ -32,9 +32,6 @@ class App extends Component {
           case 'userCount':
             newState.userCount = message.userCount;
             break;
-          case 'userColor':
-            newState.currentUser.color = message.color;
-            break;
           default:
             console.log('Unknown message type: ' + message.type);
             break;
@@ -46,23 +43,20 @@ class App extends Component {
 
   handleMessage (message){
     const newMessage = {
-        type: 'postMessage',
-        color: this.state.currentUser.color,
-        username: this.state.currentUser.name,
-        content: message
+      type: 'postMessage',
+      username: this.state.currentUser.name,
+      content: message
     }
     this.socket.send(JSON.stringify(newMessage))
   }
 
   handleUser (userName){
     const oldUserName = this.state.currentUser.name;
-    const oldColor = this.state.currentUser.color;
     const newUser = userName;
     if (oldUserName === newUser) return;
-    this.setState({currentUser: {name: newUser, color: oldColor}});
+    this.setState({currentUser: {name: newUser}});
     let message = {
       type: 'postNewUserName',
-      color: this.state.currentUser.color,
       content: oldUserName + ' has changed their name to ' + newUser
     }
     this.socket.send(JSON.stringify(message));

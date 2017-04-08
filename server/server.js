@@ -54,6 +54,7 @@ wss.on('connection', (client) => {
     switch (message.type){
       case 'postMessage':
         outgoing.type = 'incomingMessage';
+        outgoing.color = rndColor;
         break;
       case 'postNewUserName':
         outgoing.type = 'incomingNewUserName';
